@@ -1,4 +1,6 @@
+using BackendDeveloperProject.Core.UnitOfWork;
 using BackendDeveloperProject.Data.DataAccess;
+using BackendDeveloperProject.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +16,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
