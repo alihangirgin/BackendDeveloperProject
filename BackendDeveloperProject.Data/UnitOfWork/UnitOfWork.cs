@@ -24,9 +24,9 @@ namespace BackendDeveloperProject.Data.UnitOfWork
         public IFormRepository Forms => _formRepository = _formRepository ?? new FormRepository(_dbContext);
 
 
-        public int Commit()
+        public async Task<int> Commit()
         {
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()

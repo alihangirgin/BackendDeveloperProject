@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BackendDeveloperProject.Core\BackendDeveloperProject.Core.csproj" />
+    <ProjectReference Include="..\BackendDeveloperProject.Data\BackendDeveloperProject.Data.csproj" />
+  </ItemGroup>
+
 </Project>

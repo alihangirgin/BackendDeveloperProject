@@ -1,9 +1,10 @@
+using BackendDeveloperProject.Business;
+using BackendDeveloperProject.Core.Services;
 using BackendDeveloperProject.Core.UnitOfWork;
 using BackendDeveloperProject.Data.DataAccess;
 using BackendDeveloperProject.Data.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
 }).AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IFormService, FormService>();
 
 var app = builder.Build();
 
