@@ -1,7 +1,19 @@
+using BackendDeveloperProject.Data.DataAccess;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("BackendDeveloperProjectDb");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
