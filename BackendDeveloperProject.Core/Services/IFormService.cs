@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BackendDeveloperProject.Core.Dtos;
+using BackendDeveloperProject.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,9 @@ namespace BackendDeveloperProject.Core.Services
 {
     public interface IFormService
     {
+        Task AddFormAsync(FormDto model);
+        Task<FormDto?> GetFormAsync(int id);
+        Task<IEnumerable<FormDto>> GetFormsAsync();
+        Task DeleteFormAsync(int id);
     }
 }

@@ -2,11 +2,6 @@
 using BackendDeveloperProject.Core.Repositories;
 using BackendDeveloperProject.Data.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BackendDeveloperProject.Data.Repositories
 {
@@ -26,6 +21,25 @@ namespace BackendDeveloperProject.Data.Repositories
             entity.CreatedAt = DateTime.Now;
             await _dbSet.AddAsync(entity);
             return entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string? include = null)
+        {
+            if (string.IsNullOrEmpty(include)) return await _dbSet.ToListAsync();
+            return await _dbSet.Include(include).ToListAsync();
+        }
+
+        public async Task<TEntity?> GetByIdAsync(int id, string? include = null)
+        {
+            if (string.IsNullOrEmpty(include)) return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbSet.Include(include).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task DeleteAsync(int id, string? include = null)
+        {
+            var entity = await GetByIdAsync(id, include);
+            if (entity != null)
+                _dbSet.Remove(entity);
         }
     }
 }

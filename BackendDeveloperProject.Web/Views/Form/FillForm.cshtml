@@ -1,0 +1,25 @@
+﻿@model FormViewModel
+
+<div class="container mt-4">
+    <h2>@Model.Name</h2>
+    <p>@Model.Description</p>
+
+    <form>
+        @foreach (var field in Model.Fields)
+        {
+            <div class="form-group mb-3">
+                <label for="@field.Name" class="form-label">@field.Name</label>
+                @if (field.DataType == "STRING")
+                {
+                    <input type="text" class="form-control" id="@field.Name" name="@field.Name" @(field.Required ? "required" : "") />
+                }
+                else if (field.DataType == "NUMBER")
+                {
+                    <input type="number" class="form-control" id="@field.Name" name="@field.Name" @(field.Required ? "required" : "") />
+                }
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+</div>

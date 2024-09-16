@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 
 var connectionString = builder.Configuration.GetConnectionString("BackendDeveloperProjectDb");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));

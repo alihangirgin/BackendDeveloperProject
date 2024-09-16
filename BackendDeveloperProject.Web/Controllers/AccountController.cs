@@ -48,6 +48,7 @@ namespace BackendDeveloperProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+           
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = model.Username, Email = model.Email };
