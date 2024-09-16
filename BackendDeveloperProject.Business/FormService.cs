@@ -50,9 +50,9 @@ namespace BackendDeveloperProject.Business
             };
         }
 
-        public async Task<IEnumerable<FormDto>> GetFormsAsync()
+        public async Task<IEnumerable<FormDto>> GetFormsAsync(string? prefix = null)
         {
-            var forms = await _unitOfWork.Forms.GetAllAsync("Fields");
+            var forms = await _unitOfWork.Forms.GetAllAsync("Fields", prefix);
             return forms.Select(x => new FormDto()
             {
                 Id = x.Id,

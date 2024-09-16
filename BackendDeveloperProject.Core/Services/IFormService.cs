@@ -12,7 +12,7 @@ namespace BackendDeveloperProject.Core.Services
     {
         Task AddFormAsync(FormDto model);
         Task<FormDto?> GetFormAsync(int id);
-        Task<IEnumerable<FormDto>> GetFormsAsync();
+        Task<IEnumerable<FormDto>> GetFormsAsync(string? prefix = null);
         Task DeleteFormAsync(int id);
     }
 }

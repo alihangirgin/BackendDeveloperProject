@@ -23,16 +23,31 @@ namespace BackendDeveloperProject.Data.Repositories
             return entity;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(string? include = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string? include = null, string? prefix = null)
         {
-            if (string.IsNullOrEmpty(include)) return await _dbSet.ToListAsync();
-            return await _dbSet.Include(include).ToListAsync();
+            var query = _dbSet.AsQueryable();
+
+            if (!string.IsNullOrEmpty(include))
+            {
+                query = query.Include(include);
+            }
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                query = query.Where(x => x.Name.Contains(prefix));
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<TEntity?> GetByIdAsync(int id, string? include = null)
         {
-            if (string.IsNullOrEmpty(include)) return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
-            return await _dbSet.Include(include).FirstOrDefaultAsync(x => x.Id == id);
+            var query = _dbSet.AsQueryable();
+            if (!string.IsNullOrEmpty(include))
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task DeleteAsync(int id, string? include = null)

@@ -17,6 +17,7 @@ namespace BackendDeveloperProject.Web.Controllers
             _formService = formService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var forms = await _formService.GetFormsAsync();
@@ -35,6 +36,26 @@ namespace BackendDeveloperProject.Web.Controllers
             return View(response);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string? prefix = null)
+        {
+            var forms = await _formService.GetFormsAsync(prefix);
+            var response = forms.Select(x => new FormViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Fields = x.Fields.Select(y => new FieldViewModel()
+                {
+                    Name = y.Name,
+                    DataType = y.DataType,
+                    Required = y.Required
+                }).ToList()
+            }).ToList();
+            return Ok(response);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> FillForm(int id)
         {
@@ -51,16 +72,6 @@ namespace BackendDeveloperProject.Web.Controllers
                 }).ToList()
             };
             return View(response);
-        }
-
-        [HttpGet("create")]
-        public async Task<IActionResult> Create()
-        {
-            FormViewModel model = new()
-            {
-                Fields = new()
-            };
-            return View(model);
         }
 
         [HttpPost("create")]
