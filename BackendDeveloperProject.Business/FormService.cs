@@ -18,13 +18,14 @@ namespace BackendDeveloperProject.Business
         {
             Form formEntity = new()
             {
+                CreatedBy = model.CreatedBy,
                 Description = model.Description,
                 Name = model.Name,
                 Fields = model.Fields.Select(x => new Field()
                 {
                     DataType = x.DataType,
                     Name = x.Name,
-                    Required = x.Required,
+                    Required = x.Required
                 }).ToList()
             };
             await _unitOfWork.Forms.AddAsync(formEntity);

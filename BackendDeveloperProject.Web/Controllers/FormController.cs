@@ -3,6 +3,7 @@ using BackendDeveloperProject.Core.Services;
 using BackendDeveloperProject.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BackendDeveloperProject.Web.Controllers
 {
@@ -11,10 +12,12 @@ namespace BackendDeveloperProject.Web.Controllers
     public class FormController : Controller
     {
         private readonly IFormService _formService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public FormController(IFormService formService)
+        public FormController(IFormService formService, IHttpContextAccessor httpContextAccessor)
         {
             _formService = formService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -86,11 +89,12 @@ namespace BackendDeveloperProject.Web.Controllers
             {
                 Name = model.Name,
                 Description = model.Description,
+                CreatedBy = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty,
                 Fields = model.Fields.Select(x => new FieldDto()
                 {
                     DataType = x.DataType,
                     Name = x.Name,
-                    Required = x.Required
+                    Required = x.Required,
                 }).ToList()
             });
             return RedirectToAction(nameof(Index));
